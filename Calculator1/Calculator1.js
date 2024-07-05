@@ -1,18 +1,33 @@
-  // CALCULATOR PROGRAM 
-  let display = document.getElementById('display');
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('inputBox');
+    const buttons = document.querySelectorAll('button');
 
-  function appendToDisplay(input) {
-      display.value += input;
-  }
+    let string = "";
+    buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const value = e.target.innerHTML;
 
-  function clearDisplay() {
-      display.value = '';
-  }
-
-  function calculate() {
-      try {
-          display.value = eval(display.value);
-      } catch (error) {
-          display.value = "Error";
-      }
-  }
+            if (value === "=") {
+                try {
+                    string = eval(string) || "";
+                } catch {
+                    string = "Error";
+                }
+                input.value = string;
+            } else if (value === "AC") {
+                string = "";
+                input.value = "0";
+            } else if (value === "DEL") {
+                string = string.slice(0, -1);
+                input.value = string || "0";
+            } else {
+                if (input.value === "0" || input.value === "Error") {
+                    string = value;
+                } else {
+                    string += value;
+                }
+                input.value = string;
+            }
+        });
+    });
+});
